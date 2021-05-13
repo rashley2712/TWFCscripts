@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 import argparse, sys, numpy
 import matplotlib.pyplot
-import datetimelib
-import photometrylib
 import generallib
 import astropy
 import subprocess
