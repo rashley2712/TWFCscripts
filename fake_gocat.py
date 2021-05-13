@@ -24,7 +24,7 @@ def getUsername():
 	return str(username)
 
 if __name__ == "__main__":	
-	print(bcolors.OKGREEN,"\tfake_focus")
+	print(bcolors.OKCYAN,"\tfake_gocat")
 	print("\t", sys.argv)
 	time.sleep(7)
 	print(bcolors.ENDC)
