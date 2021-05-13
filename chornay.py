@@ -1,18 +1,19 @@
 #!/usr/bin/python3
-import argparse, subprocess, sys, signal
+import argparse, subprocess, sys, signal, os
 
 commandHistory = None
 commandCounter = 1
-
+fake = True
 
 def executeCommand(commandString):
-	global commandHistory, commandCounter
+	global commandHistory, commandCounter, fake
 	print("[step %d] : %s"%(commandCounter, commandString))
 	commandCounter+=1
 	commandHistory.write(commandString)
 	commandHistory.write("\n")
 	commandHistory.flush()
 	fields = [str(c) for c in commandString.split()]
+	if fake: fields[0] = "fake_" + fields[0]
 	subprocess.call(fields)
 	
 def readFocusTable(filename):
@@ -36,6 +37,11 @@ def signal_handler(sig, frame):
 		commandHistory.close()
 	sys.exit(-1)
 
+# Looks for a file called 'fake' in the local directory. If it finds it, it goes into simulation mode. All commands will be pre-pended with 'fake_'.
+def checkFake():
+	if os.path.exists("fake"): return True
+	return False
+
 if __name__ == "__main__":
 	signal.signal(signal.SIGINT, signal_handler)
 	parser = argparse.ArgumentParser(description='Performs a block observation for SW21021a07 (Chornay).')
@@ -49,6 +55,9 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	# print(args)
 	
+	fake = checkFake()
+	if fake: print("\n    --= SIMULATION MODE =--\n")
+
 	skipGOCAT = False
 	if args.target is None:
 		skipGOCAT = True
