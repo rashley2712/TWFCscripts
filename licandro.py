@@ -5,6 +5,18 @@ commandHistory = None
 commandCounter = 1
 fake = True
 
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def executeCommand(commandString):
 	global commandHistory, commandCounter, fake
 	print("[step %d] : %s"%(commandCounter, commandString))
@@ -32,6 +44,7 @@ def readFocusTable(filename):
 
 def signal_handler(sig, frame):
 	global commandHistory
+	print(bcolors.ENDC)
 	if commandHistory is not None:
 		print("command history in command.log")
 		commandHistory.close()
