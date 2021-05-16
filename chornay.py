@@ -94,7 +94,11 @@ if __name__ == "__main__":
 	numExps = args.numexps
 
 	# Read the focus values
-	focusTable = readFocusTable(args.focus)
+	try:
+		focusTable = readFocusTable(args.focus)
+	except: 
+		print("You need to create a focus.dat file containing today's focus values for each filter.")
+		sys.exit()
 
 	# Present a summary to the observer
 	print("OBSERVATION BLOCK\n+++++++++++++++++\n")
