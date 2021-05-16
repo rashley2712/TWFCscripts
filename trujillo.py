@@ -78,6 +78,7 @@ if __name__ == "__main__":
 	print(args)
 
 	fake = checkFake()
+	if fake: print("\n    --= SIMULATION MODE =--\n")
 
 	if args.filter is None:
 		print("Please specify which filters you want with -f [filters]")
