@@ -4,6 +4,7 @@ import matplotlib.pyplot
 import generallib
 import astropy
 import subprocess
+from astropy.io import fits
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='Loads a list of FITS files makes a bias frame from them.')
