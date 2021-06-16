@@ -68,7 +68,7 @@ if __name__ == "__main__":
 	#parser.add_argument('-f', '--filter', type=str, nargs='+', help="Filter(s). Specify which filter(s) to expose.")
 	parser.add_argument('-c', '--camera', type=str, default="TWFC2", help="Which camera to use? TWFC1 or TWFC2. Default: TWFC2")
 	#parser.add_argument('--focus', type=str, default='focus.dat', help="Name of the file containing focus values. Default is focus.dat.")
-	parser.add_argument('-e', '--exptime', type=float, nargs='+', help="Exposure time(s) in seconds for each filter.")
+	parser.add_argument('-e', '--exptime', type=float, help="Exposure time(s) in seconds for each filter.")
 	#parser.add_argument('-n', '--numexp', type=float, nargs='+', help="Number of exposures for each filter. Default is 1.")
 	parser.add_argument('-b', '--binning', type=int, default=4, help="Binning. Default is 4x4.")
 	args = parser.parse_args()
@@ -88,7 +88,7 @@ if __name__ == "__main__":
 	if args.exptime is None:
 		print("Please specify the exposure times for each filter. Use the -e option.")
 		sys.exit()
-	expTime = args.exptime[0]
+	expTime = args.exptime
 	
     #if len(args.exptime)!=len(args.filter): 
 	#	print("We need an exposure time for each filter.")
