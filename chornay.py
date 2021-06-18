@@ -117,17 +117,18 @@ if __name__ == "__main__":
 		executeCommand("gocat %s"%args.target)
 
 	# Run through the observing block
-	for f, e, n in zip(filters, expTimes, numExps):
+	for number in range(numExps[0]): 
+		for f, e in zip(filters, expTimes):
 
-		# Set the filter
-		executeCommand("indicam filter %s -f %s"%(camera, f))
+			# Set the filter
+			executeCommand("indicam filter %s -f %s"%(camera, f))
 
-		# Set the focus
-		focusValue = focusTable[f]	
-		executeCommand("focus %.2f"%(focusValue))
+			# Set the focus
+			focusValue = focusTable[f]	
+			executeCommand("focus %.2f"%(focusValue))
 
-		executeCommand("indicam -b %d run %s %.2f -n %d"%(binning, camera, e, n))
-	
+			executeCommand("indicam -b %d run %s %.2f -n %d"%(binning, camera, e, 1))
+		
 	print("command history in command.log")
 	commandHistory.close()
 
