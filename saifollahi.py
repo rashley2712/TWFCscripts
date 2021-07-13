@@ -129,6 +129,9 @@ if __name__ == "__main__":
 	for ditherstep in range(1, len(dither)+1):
 		i = ditherstep -1
 		print("Dither step: ", ditherstep, " = ", dither[i])
+		if args.ditherstep>ditherstep:
+			print("skipping")
+			continue
 		# Offset to dither
 		logComment("dither step %d : (%d, %d)"%(ditherstep, dither[i][0], dither[i][1]))
 		executeCommand("offset arc %d %d"%dither[i])
