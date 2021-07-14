@@ -68,8 +68,8 @@ if __name__ == "__main__":
 	parser.add_argument('-c', '--camera', type=str, default="TWFC2", help="Which camera to use? TWFC1 or TWFC2. Default: TWFC2")
 	parser.add_argument('--focus', type=str, default="focus.dat", help="Filename for a text file containing focus values (in mm). Default 'focus.dat'.")
 	parser.add_argument('-e', '--exptimes', type=float, nargs="+", help="Exposure times for each filter.")
-	parser.add_argument('-b', '--binning', type=int, default=4, help="Binning. Default is 4x4.")
 	parser.add_argument('-n', '--numexp', type=int, nargs="+", help="Number of exposures.")
+	parser.add_argument('-b', '--binning', type=int, default=4, help="Binning. Default is 4x4.")
 	parser.add_argument('-d', '--ditherstep', type=int, default=1, help="Dither step to start on. Default is 1.")
 	
 	args = parser.parse_args()
@@ -98,7 +98,6 @@ if __name__ == "__main__":
 	numExp = args.numexp
 
 
-
 	# Read the focus values
 	try:
 		focusTable = readFocusTable(args.focus)
@@ -108,9 +107,9 @@ if __name__ == "__main__":
 
 	# Make the dither pattern
 	dither = []
-	ditherSize = 2
-	ditherX = 5
-	ditherY = 5
+	ditherSize = 10
+	ditherX = 3
+	ditherY = 3
 	for i in range(ditherX):
 		for j in range(ditherY):
 			x = ditherSize * (i - numpy.median(range(ditherX)))
@@ -153,12 +152,28 @@ if __name__ == "__main__":
 			executeCommand("focus %.2f"%(focusValue))
 
 			# Take the exposure
-			executeCommand("indicam -b %d run %s %.2f -n %d"%(binning, camera, e, 1))
+			executeCommand("indicam -b %d run %s %.2f -n %d"%(binning, camera, e, n))
 
 		executeCommand("tcs autoguide off")
-		#executeCommand("/wht/release/Ubuntu18/bin/bell")
-
 
 
 	sys.exit()	
+	for number in range(numExps[0]): 
+		for f, e in zip(filters, expTimes):
 
+			# Set the filter
+			executeCommand("indicam filter %s -f %s"%(camera, f))
+
+			# Set the focus
+			focusValue = focusTable[f]	
+			executeCommand("focus %.2f"%(focusValue))
+
+			executeCommand("indicam -b %d run %s %.2f -n %d"%(binning, camera, e, 1))
+
+			executeCommand("tcs autoguide off")
+
+		
+	print("command history in command.log")
+	commandHistory.close()
+
+	sys.exit()
